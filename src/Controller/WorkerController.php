@@ -95,7 +95,6 @@ class WorkerController extends AbstractController
         if (!$process->isSuccessful()) {
             return $this->json([
                 'status' => 'error',
-                // 'errors' => str_replace('/home/zenbook', '/container', $process->getErrorOutput()),
                 'errors' => $process->getErrorOutput(),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
