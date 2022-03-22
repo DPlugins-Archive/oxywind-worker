@@ -1,0 +1,26 @@
+{
+	# Debug
+	{$DEBUG}
+	# HTTP/3 support
+	servers {
+		protocol {
+			experimental_http3
+		}
+	}
+}
+
+{$SERVER_NAME}
+
+log
+
+# tls {
+# 	dns cloudflare {env.CF_API_TOKEN}
+# }
+
+route {
+	root * /srv/symfony/public
+
+	php_fastcgi unix//var/run/php/php-fpm.sock
+	encode zstd gzip
+	file_server
+}

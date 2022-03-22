@@ -1,0 +1,6 @@
+flysystem:
+    storages:
+        default.storage:
+            adapter: 'local'
+            options:
+                directory: '%env(resolve:LOCAL_STORAGE_DIR)%'

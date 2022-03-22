@@ -1,0 +1,17 @@
+version: '3'
+
+# Production environment override
+services:
+  php:
+    volumes:
+      # If you develop on Linux, you may use a bind-mounted host directory instead
+      - ./var:/srv/symfony/var:rw
+    environment:
+      APP_ENV: prod
+      APP_SECRET: ${APP_SECRET}
+
+  database:
+    volumes:
+      - db_data:/var/lib/postgresql/data:rw
+      # you may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      - /docker/db/data:/var/lib/postgresql/data:rw
