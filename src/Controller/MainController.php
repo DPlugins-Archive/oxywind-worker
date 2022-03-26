@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class WorkerController extends AbstractController
+class MainController extends AbstractController
 {
     private ValidatorInterface $validator;
 
@@ -40,13 +40,13 @@ class WorkerController extends AbstractController
         $this->doctrine = $doctrine;
     }
 
-    #[Route('/', name: 'app_worker_index', methods: ['GET'])]
+    #[Route('/', name: 'app_main_index', methods: ['GET'])]
     public function index(): Response
     {
-        return $this->redirect('https://tailwindcss.oxyrealm.com', Response::HTTP_FOUND);
+        return $this->redirect('https://dplugins.com/oxywind', Response::HTTP_FOUND);
     }
 
-    #[Route('/', name: 'app_worker_worker', methods: ['POST'])]
+    #[Route('/worker', name: 'app_main_worker', methods: ['POST'])]
     public function worker(Request $request): Response
     {
         $this->stopwatch->start('tailwindcss-worker');
@@ -125,6 +125,23 @@ class WorkerController extends AbstractController
         ], Response::HTTP_OK);
     }
 
+    #[Route('/profiles', name: 'app_main_profiles', methods: ['GET'])]
+    public function stats(): Response
+    {
+        $entityManager = $this->doctrine->getManager();
+
+        $profiles = $entityManager->getRepository(Profile::class)->findAll();
+
+        return $this->json(
+            $profiles,
+            Response::HTTP_OK,
+            [],
+            [
+                'groups' => ['profile:read'],
+            ]
+        );
+    }
+
     private function writeFile($css, $preset, $content)
     {
         try {
@@ -161,6 +178,7 @@ class WorkerController extends AbstractController
                 require('@tailwindcss/forms'),
                 require('@tailwindcss/typography'),
                 require('@tailwindcss/line-clamp'),
+                require('@tailwindcss/aspect-ratio'),
             ],
         }
         TAILWINDPRESET;

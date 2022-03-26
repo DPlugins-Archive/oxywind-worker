@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProfileRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProfileRepository::class)]
 class Profile
@@ -14,24 +15,30 @@ class Profile
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[Groups(['profile:read'])]
     #[ORM\Column(type: 'uuid')]
     private $uuid;
 
+    #[Groups(['profile:read'])]
     #[ORM\Column(type: 'integer')]
     private $duration;
 
+    #[Groups(['profile:read'])]
     #[ORM\Column(type: 'integer')]
     private $memory;
 
+    #[Groups(['profile:read'])]
     #[ORM\Column(type: 'string', length: 255)]
     private $tailwindcss;
 
+    #[Groups(['profile:read'])]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $wordpress;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $site;
 
+    #[Groups(['profile:read'])]
     #[ORM\Column(type: 'datetime')]
     #[Gedmo\Timestampable(on: 'create')]
     private $created;
