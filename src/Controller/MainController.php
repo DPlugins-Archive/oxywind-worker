@@ -46,7 +46,16 @@ class MainController extends AbstractController
         return $this->redirect('https://dplugins.com/oxywind', Response::HTTP_FOUND);
     }
 
-    #[Route('/worker', name: 'app_main_worker', methods: ['POST'])]
+    #[Route('/worker', name: 'app_main_worker_get', methods: ['GET', 'HEAD'])]
+    public function tailwind_version(): Response
+    {
+        return $this->json([
+            'status' => 'success',
+            'tailwind-version' => $this->getParameter('app.tailwindcss'),
+        ], Response::HTTP_OK);
+    }
+
+    #[Route('/worker', name: 'app_main_worker_post', methods: ['POST'])]
     public function worker(Request $request): Response
     {
         $this->stopwatch->start('tailwindcss-worker');
