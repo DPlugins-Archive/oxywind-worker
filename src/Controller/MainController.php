@@ -160,7 +160,7 @@ class MainController extends AbstractController
         }
 
         try {
-            $preset = str_replace('tailwind.config = {', 'module.exports = {', $preset);
+            $preset = str_replace('tailwind.config', 'module.exports', $preset);
 
             $this->storage->write("{$this->uuid}/preset.js", $preset);
         } catch (FilesystemException | UnableToWriteFile $exception) {
@@ -207,7 +207,7 @@ class MainController extends AbstractController
                     'message' => 'The tailwind config preset is required.',
                 ]),
                 new Assert\Callback(function ($object, ExecutionContextInterface $context, $payload) {
-                    if ('tailwind.config = {' !== trim(explode("\n", $object)[0])) {
+                    if (strpos($object, 'tailwind.config') === false) {
                         $context->buildViolation('The tailwind config preset is not following the expected format.')
                             ->atPath('preset')
                             ->addViolation();
